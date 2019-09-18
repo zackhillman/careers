@@ -102,7 +102,7 @@ async function scrapePage(page, browser) {
         let amount = 5;
         var count = 0;
 
-        for (var linkNumber = 0; linkNumber < links.length-80; linkNumber++) {
+        for (var linkNumber = 0; linkNumber < links.length; linkNumber++) {
           printStatus();
           links[linkNumber].click().catch(async (err) => {
             table = await page.$('#postingsTable');
