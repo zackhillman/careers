@@ -63,13 +63,13 @@ async function scrapePage(page, browser) {
             await newPage.waitFor('#postingDiv');
             // await newPage.waitFor({waitUntil: 'networkidle'});
             const result = await newPage.evaluate(() => {
-                var tablepost = $('#postingDiv table');
+                var tablepost = $('#postingDiv table.table > tbody');
 
                 var myRows = [];
                 var headersText = [];
                 var outputMap = Object.create(null);
 
-                var $rows = $(tablepost).find("tbody tr").each(function(index) {
+                var $rows = $(tablepost).children("tr").each(function(index) {
                   $cells = $(this).find("td");
                   if ($cells.length == 2) {
                     var key = $cells[0].innerText;
@@ -101,7 +101,6 @@ async function scrapePage(page, browser) {
         await page.waitFor(1000);
         let amount = 5;
         var count = 0;
-
         for (var linkNumber = 0; linkNumber < links.length; linkNumber++) {
           printStatus();
           links[linkNumber].click().catch(async (err) => {
@@ -125,7 +124,6 @@ async function scrapePage(page, browser) {
                   await page.waitFor(500);
                   times +=1;
               }
-              linkNumber += count;
               count = 0;
           }
         }
