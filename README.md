@@ -1,1 +1,2 @@
-test
+npm install
+node careers.js
