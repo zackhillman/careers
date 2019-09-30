@@ -39,13 +39,18 @@ async function scrapePage(page, browser) {
       var titleText = await titleElement.evaluate((element) => {
         return element.innerText;
       });
-      if (titleText.includes("Co-op Job Postings")) {
-        await page.waitFor('#quickSearchCountsContainer > table:nth-child(1) > tbody > tr:nth-child(1) > td.full > a');
 
+
+      if (titleText.includes("Co-op Job Postings")) {
+          await page.waitFor('#quickSearchCountsContainer > table:nth-child(1) > tbody > tr:nth-child(1) > td.full > a');
+          console.log('waited2');
         totalPostings = await page.$eval('#quickSearchCountsContainer > table:nth-child(1) > tbody > tr:nth-child(1) > td.value > span', (element) => {
+          console.log(element);
             return element.innerText;
         })
+        console.log(totalPostings);
         await page.click('#quickSearchCountsContainer > table:nth-child(1) > tbody > tr:nth-child(1) > td.full > a');
+        console.log('waited');
       }
       await page.waitFor('.pagination');
       console.log("Successful log in");
@@ -69,7 +74,7 @@ async function scrapePage(page, browser) {
                 var headersText = [];
                 var outputMap = Object.create(null);
 
-                var $rows = $(tablepost).children("tr").each(function(index) {
+                var $rows = $(tablepost).find("tr").each(function(index) {
                   $cells = $(this).find("td");
                   if ($cells.length == 2) {
                     var key = $cells[0].innerText;
@@ -153,7 +158,7 @@ async function handleInput(username, password, page) {
 start();
 
 function writeCSV(writeArray) {
-  fs.writeFile("output.txt", JSON.stringify(writeArray), (err) => {
+  fs.writeFile("output_all.txt", JSON.stringify(writeArray), (err) => {
     if (err) throw err;
   });
 }
